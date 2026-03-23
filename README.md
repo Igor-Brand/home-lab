@@ -2,7 +2,7 @@
 
 ------------------------------
 
-🛡️ Laboratório de Pentest: Configuração de Rede Isolada
+🛡️ ##Laboratório de Pentest: Configuração de Rede Isolada
 Este guia descreve como configurar o endereçamento IP estático para um ambiente de laboratório controlado (Rede Interna) utilizando Kali Linux, Metasploitable 3 e Ubuntu (Monitoramento).
 🌐 Topologia da Rede
 
@@ -35,33 +35,47 @@ sudo ip link set eth0 up
 3. Configurando o Metasploitable 3 Windows (.12)
 Abra o CMD como Administrador e execute:
 
-# Define o IP estático (certifique-se que o nome da interface é "Ethernet")
+### Define o IP estático (certifique-se que o nome da interface é "Ethernet")
+```
 netsh interface ip set address name="Ethernet" static 192.168.1.12 255.255.255.0
+```
 
-# Desativa o Firewall para permitir testes de ping e scan
+### Desativa o Firewall para permitir testes de ping e scan
+```
 netsh advfirewall set allprofiles state off
+```
 
 4. Configurando o Ubuntu de Monitoramento (.13)
 No Ubuntu, as interfaces costumam ter nomes como enp0s3. Identifique com ip link e aplique:
 
-# Impede que o NetworkManager resete a configuração
+### Impede que o NetworkManager resete a configuração
+```
 sudo nmcli device set enp0s3 managed no
-# Configura o IP e ativa o modo promíscuo para captura de tráfego
+```
+### Configura o IP e ativa o modo promíscuo para captura de tráfego
+```
 sudo ip addr add 192.168.1.13/24 dev enp0s3
 sudo ip link set enp0s3 up
 sudo ip link set enp0s3 promisc on
-
+```
 ------------------------------
 🧪 Testando a Conectividade
 A partir do Kali Linux, verifique se todos os alvos estão visíveis:
 
-# Teste de ping individual
+### Teste de ping individual
+```
 ping -c 3 192.168.1.11
+```
+```
 ping -c 3 192.168.1.12
+```
+```
 ping -c 3 192.168.1.13
-# Varredura rápida de rede
+```
+### Varredura rápida de rede
+```
 sudo nmap -sn 192.168.1.0/24
-
+```
 ------------------------------
 
 
